@@ -165,20 +165,29 @@
   + This has not been agreed, so this is only my own opinion (aplanas)
 
   + Stage 1 (MVP)
-    - Grub2 as is mostly today, with a patch to support boot loader
-      layout
-    - Implement boot loader specification layout in ESP
+    - Use Grub2 as the boot loader
+    - Add bootloader specification patch to grub2
+    - Implement boot loader specification layout in ESP during the
+      installation (YaST)
     - Move boot into the ESP (moving the kernel and the initrd)
-    - Clean boot partition and FDE for the rest
-    - Implement the steps from [8] inside YaST
+	- Resolve the problem with the kernel and initrd rollback, maybe
+      synchronizing the number of snapshots with the number of kernels
+      / initrd present (this will have the problem of different kernel
+      command lines, that will invalidate the PCR)
+    - Provide a tool that will write the TPM policy in the boot config
+      file (that links the kernel, initrd, kernel command line and the
+      snapshot), later this tool will write the policy in the LUKS2
+      metadata, so cryptenroll can unlock the device
+    - Clear boot partition and FDE for the rest
+    - Implement the steps from [8] inside YaST to delegate in
+      systemd-cryptenroll the unlock of the encrypted volume
     - Enable data authentication in the encrypted volume
-    - initrd creation from the FDE side
+      (libstorage-ng patch)
+    - Still create the initrd from the FDE side (like is done today
+      with the triggers)
     - Use an in-house tool to predict the PCRs 4, 5, 7, 8 and 9
 
   + Stage 2 (Complete solution)
-    - Add bootloader specification patch to grub2
-    - Update YaST to deploy the ESP under this layout
-    - Include the new rollback code for the new ESP layout
     - Use dm-integrity with keyed hash from a TPM for an unencrypted /usr
 	- Main initrd still delivered at clean, with no encryption
     - Use systemd-sysext, mkosi and a local signature to create initrd
