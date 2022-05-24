@@ -1,7 +1,8 @@
 * Goals of the project
-  + Protect intellectual property (IP)
-  + IP can be present in the system (/usr), in user data (/var,
-    /home), or even in initrd.
+  + Protect user / company private data (like machine model data, log
+    files, etc)
+  + Private data can be present in the system (/opt), in user data
+    (/var, /home), or even in initrd.
   + Loss or Theft: protect data from unauthorized access due to loss
     or theft of the device
   + Disk Lifecycle: since you cannot really destroy data on a SSD,
@@ -177,8 +178,9 @@
     - Update YaST to deploy the ESP under this layout
     - Include the new rollback code for the new ESP layout
     - Use dm-integrity with keyed hash from a TPM for an unencrypted /usr
+	- Main initrd delivered at clean, with no encryption
     - Use systemd-sysext, mkosi and a local signature to create initrd
-      extensions for drivers where IP is relevant
+      extensions for drivers where privacy is relevant
 
   + Stage 3..n (Full systemd alignment)
     - Work in an upstream solution for PCR prediction for systemd
