@@ -2,7 +2,7 @@
   + Protect user / company private data (like machine model data, log
     files, etc)
   + Private data can be present in the system (/opt), in user data
-    (/var, /home), or even in initrd.
+    (/var, /home), or potentially even in initrd.
   + Loss or Theft: protect data from unauthorized access due to loss
     or theft of the device
   + Disk Lifecycle: since you cannot really destroy data on a SSD,
@@ -165,8 +165,10 @@
   + This has not been agreed, so this is only my own opinion (aplanas)
 
   + Stage 1 (MVP)
-    - Grub2 as it is today
-    - No boot loader specification layout in ESP
+    - Grub2 as is mostly today, with a patch to support boot loader
+      layout
+    - Implement boot loader specification layout in ESP
+    - Move boot into the ESP (moving the kernel and the initrd)
     - Clean boot partition and FDE for the rest
     - Implement the steps from [8] inside YaST
     - Enable data authentication in the encrypted volume
@@ -178,7 +180,7 @@
     - Update YaST to deploy the ESP under this layout
     - Include the new rollback code for the new ESP layout
     - Use dm-integrity with keyed hash from a TPM for an unencrypted /usr
-	- Main initrd delivered at clean, with no encryption
+	- Main initrd still delivered at clean, with no encryption
     - Use systemd-sysext, mkosi and a local signature to create initrd
       extensions for drivers where privacy is relevant
 
